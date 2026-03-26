@@ -1,0 +1,7 @@
+[
+    { "idPrestation": 1, "nom": "Navette aéroport", "prix": 45 },
+    { "idPrestation": 2, "nom": "Petit-déjeuner", "prix": 18 },
+    { "idPrestation": 3, "nom": "Dîner gastronomique", "prix": 65 },
+    { "idPrestation": 4, "nom": "Panier pique-nique", "prix": 25 },
+    { "idPrestation": 5, "nom": "Soin spa", "prix": 90 }
+]

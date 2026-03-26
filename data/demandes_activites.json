@@ -1,0 +1,110 @@
+[
+    {
+        "idDemande": 1,
+        "idResa": 1,
+        "idActivite": 1,
+        "granularite": "demi-journee",
+        "nb_personnes": 2,
+        "niveau": "Confirmé",
+        "difficulte": null,
+        "mode": null,
+        "preferences": "De préférence le matin, pas trop tôt",
+        "statut": "validee"
+    },
+    {
+        "idDemande": 2,
+        "idResa": 2,
+        "idActivite": 1,
+        "granularite": "demi-journee",
+        "nb_personnes": 4,
+        "niveau": "Débutant",
+        "difficulte": null,
+        "mode": null,
+        "preferences": "Groupe avec enfants, rythme tranquille",
+        "statut": "validee"
+    },
+    {
+        "idDemande": 3,
+        "idResa": 1,
+        "idActivite": 9,
+        "granularite": "heure",
+        "nb_personnes": 2,
+        "niveau": null,
+        "difficulte": null,
+        "mode": null,
+        "preferences": "Au lever du soleil si possible",
+        "statut": "en_attente"
+    },
+    {
+        "idDemande": 4,
+        "idResa": 2,
+        "idActivite": 7,
+        "granularite": "heure",
+        "nb_personnes": 6,
+        "niveau": null,
+        "difficulte": null,
+        "mode": "ouvert",
+        "preferences": "On est 6, ouverts à accueillir d'autres clients",
+        "statut": "validee"
+    },
+    {
+        "idDemande": 5,
+        "idResa": 2,
+        "idActivite": 8,
+        "granularite": "heure",
+        "nb_personnes": 3,
+        "niveau": "Débutant",
+        "difficulte": null,
+        "mode": null,
+        "preferences": "",
+        "statut": "en_attente"
+    },
+    {
+        "idDemande": 6,
+        "idResa": 3,
+        "idActivite": 4,
+        "granularite": "journee",
+        "nb_personnes": 3,
+        "niveau": null,
+        "difficulte": "Modérée",
+        "mode": null,
+        "preferences": "Avec arrêts photos, on adore la faune",
+        "statut": "en_attente"
+    },
+    {
+        "idDemande": 7,
+        "idResa": 3,
+        "idActivite": 10,
+        "granularite": "demi-journee",
+        "nb_personnes": 3,
+        "niveau": null,
+        "difficulte": null,
+        "mode": null,
+        "preferences": "",
+        "statut": "en_attente"
+    },
+    {
+        "idDemande": 8,
+        "idResa": 1,
+        "idActivite": 2,
+        "granularite": "journee",
+        "nb_personnes": 2,
+        "niveau": null,
+        "difficulte": null,
+        "mode": null,
+        "preferences": "Première fois, besoin de matériel fourni",
+        "statut": "en_attente"
+    },
+    {
+        "idDemande": 9,
+        "idResa": 2,
+        "idActivite": 5,
+        "granularite": "demi-journee",
+        "nb_personnes": 6,
+        "niveau": null,
+        "difficulte": null,
+        "mode": null,
+        "preferences": "Le soir de préférence",
+        "statut": "en_attente"
+    }
+]

@@ -1,0 +1,108 @@
+[
+    {
+        "idActivite": 1,
+        "nom": "Cavalgada guidée",
+        "description": "Promenade à cheval à travers le Cerrado avec un guide expert",
+        "granularites": ["demi-journee", "journee"],
+        "tarifs": { "demi-journee": 65, "journee": 110 },
+        "type_special": "standard",
+        "champs_extra": ["niveau"],
+        "options": { "niveau": ["Débutant", "Confirmé"] }
+    },
+    {
+        "idActivite": 2,
+        "nom": "Pêche sportive",
+        "description": "Pêche au piranha et aux tucunarés dans la rivière de la propriété",
+        "granularites": ["demi-journee", "journee"],
+        "tarifs": { "demi-journee": 50, "journee": 85 },
+        "type_special": "standard",
+        "champs_extra": [],
+        "options": {}
+    },
+    {
+        "idActivite": 3,
+        "nom": "Canoë en rivière",
+        "description": "Descente en canoë sur la rivière traversant la hacienda",
+        "granularites": ["heure", "demi-journee"],
+        "tarifs": { "heure": 30, "demi-journee": 55 },
+        "type_special": "standard",
+        "champs_extra": ["niveau"],
+        "options": { "niveau": ["Débutant", "Confirmé"] }
+    },
+    {
+        "idActivite": 4,
+        "nom": "Randonnée en Cerrado",
+        "description": "Trek guidé à travers la savane brésilienne et ses espèces endémiques",
+        "granularites": ["demi-journee", "journee"],
+        "tarifs": { "demi-journee": 45, "journee": 75 },
+        "type_special": "standard",
+        "champs_extra": ["difficulte"],
+        "options": { "difficulte": ["Facile", "Modérée", "Difficile"] }
+    },
+    {
+        "idActivite": 5,
+        "nom": "Safari nocturne",
+        "description": "Observation de la faune nocturne du Cerrado en 4x4",
+        "granularites": ["demi-journee"],
+        "tarifs": { "demi-journee": 70 },
+        "type_special": "standard",
+        "champs_extra": [],
+        "options": {}
+    },
+    {
+        "idActivite": 6,
+        "nom": "Tyrolienne",
+        "description": "Survol de la canopée sur 400 mètres de câble",
+        "granularites": ["heure"],
+        "tarifs": { "heure": 40 },
+        "type_special": "standard",
+        "champs_extra": [],
+        "options": {}
+    },
+    {
+        "idActivite": 7,
+        "nom": "Match de futebol",
+        "description": "Match sur le terrain de la hacienda (6 joueurs minimum)",
+        "granularites": ["heure"],
+        "tarifs": { "heure": 15 },
+        "type_special": "groupe",
+        "nb_min_personnes": 6,
+        "champs_extra": ["mode"],
+        "options": {
+            "mode": {
+                "interne": "Entre nous (personnes de ma réservation)",
+                "ouvert": "Ouvert à d'autres clients"
+            }
+        }
+    },
+    {
+        "idActivite": 8,
+        "nom": "Cours de capoeira",
+        "description": "Initiation à la capoeira avec un maître local",
+        "granularites": ["heure", "demi-journee"],
+        "tarifs": { "heure": 35, "demi-journee": 60 },
+        "type_special": "standard",
+        "champs_extra": ["niveau"],
+        "options": { "niveau": ["Débutant", "Intermédiaire", "Avancé"] }
+    },
+    {
+        "idActivite": 9,
+        "nom": "Yoga au lever du soleil",
+        "description": "Séance de yoga au bord du lac à l'aube",
+        "granularites": ["heure"],
+        "tarifs": { "heure": 25 },
+        "type_special": "standard",
+        "champs_extra": [],
+        "options": {}
+    },
+    {
+        "idActivite": 10,
+        "nom": "Baignade en cascades",
+        "description": "Excursion guidée vers les cascades naturelles de la propriété",
+        "granularites": ["demi-journee"],
+        "tarifs": { "demi-journee": 40 },
+        "type_special": "standard",
+        "champs_extra": [],
+        "options": {}
+    }
+]

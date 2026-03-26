@@ -1,0 +1,605 @@
+/* style.css — Hacienda dos Sonhos */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  background: #fbf5e8;
+  color: #1a1a1a;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.c {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Nav */
+nav {
+  background: #143d2a;
+  padding: 1rem 0;
+}
+nav .c {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  font-size: 1.3rem;
+  color: #fff;
+  font-weight: bold;
+}
+nav a {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+/* Hero */
+#hero {
+  background: #143d2a;
+  color: #fff;
+  padding: 4rem 0 3rem;
+  text-align: center;
+}
+#hero h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+#hero h1 em {
+  color: #e8a820;
+  font-style: italic;
+}
+#hero p {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+/* Section hébergements */
+#hebergements {
+  background: #143d2a;
+  padding: 3rem 0;
+}
+#hebergements h2 {
+  color: #fff;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.grille-chambres,
+#grille-chambres {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.chambre {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem;
+  border-radius: 4px;
+}
+.chambre h3 {
+  color: #fff;
+  font-size: 1.1rem;
+  margin-bottom: 0.4rem;
+}
+.chambre p {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Section réservation */
+#reservation {
+  background: #fbf5e8;
+  padding: 3rem 0;
+}
+#reservation h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #143d2a;
+}
+
+#form-resa .champ {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+#form-resa .champ-groupe {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.liste-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.6rem 0.8rem;
+}
+.option-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: #1a1a1a;
+  cursor: pointer;
+}
+.option-item input[type="checkbox"] {
+  accent-color: #143d2a;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+.option-prix {
+  margin-left: auto;
+  color: #143d2a;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+#form-resa .champ > label {
+  font-size: 0.9rem;
+  color: #555;
+}
+#form-resa input:not([type="checkbox"]),
+#form-resa textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  color: #1a1a1a;
+  width: 100%;
+}
+#form-resa input:focus,
+#form-resa textarea:focus {
+  outline: none;
+  border-color: #143d2a;
+}
+#form-resa button[type="submit"] {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.6rem 1.8rem;
+  background: #143d2a;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+#form-resa button[type="submit"]:hover {
+  background: #1d5c3f;
+}
+
+#msg-resa {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  display: none;
+}
+#msg-resa.succes {
+  display: block;
+  background: #e6f4ec;
+  color: #1d5c3f;
+  border: 1px solid #b2d8c0;
+}
+#msg-resa.erreur {
+  display: block;
+  background: #fdecea;
+  color: #b00020;
+  border: 1px solid #f5c2be;
+}
+
+.form-erreur {
+  padding: .75rem 1rem;
+  background: #fdecea;
+  color: #b00020;
+  border: 1px solid #f5c2be;
+  border-radius: 6px;
+}
+
+@media (max-width: 600px) {
+  #form-resa .champ-groupe {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== ADMIN ===== */
+.admin-body {
+  background: #f0ebe0;
+}
+.nav-admin-label {
+  color: #e8a820;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+.admin-main {
+  padding: 2rem 1.5rem;
+}
+.admin-main h1 {
+  font-size: 2rem;
+  color: #143d2a;
+  margin-bottom: 1.5rem;
+}
+
+/* Stats */
+.admin-stats {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.stat {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.75rem 1.25rem;
+  text-align: center;
+  min-width: 120px;
+}
+.stat-val {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #143d2a;
+}
+.stat-label {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+/* Carte réservation */
+.resa-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  transition: opacity 0.3s;
+}
+.resa-refusee {
+  opacity: 0.5;
+}
+.resa-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.resa-header strong {
+  font-size: 1.05rem;
+  margin: 0 0.4rem;
+}
+.resa-id {
+  color: #aaa;
+  font-size: 0.85rem;
+}
+.resa-dates {
+  font-size: 0.9rem;
+  color: #555;
+}
+.resa-details p {
+  font-size: 0.9rem;
+  color: #444;
+  margin-bottom: 0.25rem;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.badge-en_attente { background: #fff3cd; color: #856404; }
+.badge-validee    { background: #d1e7dd; color: #0a3622; }
+.badge-refusee    { background: #f8d7da; color: #58151c; }
+
+/* Actions */
+.resa-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #eee;
+}
+.resa-actions select {
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 1;
+  min-width: 200px;
+}
+.btn-valider, .btn-refuser {
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.4rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn-valider {
+  background: #143d2a;
+  color: #fff;
+}
+.btn-valider:hover { background: #1d5c3f; }
+.btn-valider:disabled { background: #aaa; cursor: default; }
+.btn-refuser {
+  background: #f8d7da;
+  color: #58151c;
+}
+.btn-refuser:hover { background: #f1aeb5; }
+.btn-refuser:disabled { opacity: 0.5; cursor: default; }
+.no-chambre {
+  font-size: 0.85rem;
+  color: #b00020;
+  font-style: italic;
+}
+
+/* Message action */
+.msg-action {
+  display: none;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+.msg-action.erreur {
+  display: block;
+  background: #fdecea;
+  color: #b00020;
+  border: 1px solid #f5c2be;
+}
+
+/* Email template */
+.email-template {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #eee;
+}
+.email-template-label {
+  font-size: 0.85rem;
+  color: #555;
+  margin-bottom: 0.4rem;
+}
+.email-template textarea {
+  font-family: monospace;
+  font-size: 0.85rem;
+  width: 100%;
+  min-height: 180px;
+  padding: 0.75rem;
+  border: 1px solid #b2d8c0;
+  border-radius: 4px;
+  background: #e6f4ec;
+  color: #1a1a1a;
+  resize: vertical;
+}
+
+.vide {
+  color: #888;
+  font-style: italic;
+}
+
+/* Footer */
+footer {
+  background: #143d2a;
+  padding: 1rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+footer p {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ===== ACTIVITÉS CLIENT ===== */
+.section-titre {
+  font-size: 1.6rem;
+  color: #143d2a;
+  margin: 2rem 0 1rem;
+}
+.section-sous-titre {
+  font-size: 1.1rem;
+  color: #143d2a;
+  margin: 1.5rem 0 0.5rem;
+}
+.activite-form-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+.activite-form-card h3 {
+  font-size: 1rem;
+  color: #143d2a;
+  margin-bottom: 0.75rem;
+}
+.champ-inline {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.champ-inline .champ {
+  flex: 1;
+  min-width: 140px;
+}
+.champ {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.75rem;
+}
+.champ label {
+  font-size: 0.85rem;
+  color: #555;
+}
+.champ select,
+.champ input,
+.champ textarea {
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  color: #1a1a1a;
+  width: 100%;
+}
+.champ select:focus,
+.champ input:focus,
+.champ textarea:focus {
+  outline: none;
+  border-color: #143d2a;
+}
+.btn-action {
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.4rem 1.1rem;
+  background: #143d2a;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn-action:hover { background: #1d5c3f; }
+.btn-action:disabled { background: #aaa; cursor: default; }
+
+.demande-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.activite-prevue-card {
+  background: #e6f4ec;
+  border: 1px solid #b2d8c0;
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+}
+.activite-prevue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+.activite-prevue-header strong { font-size: 1rem; color: #143d2a; }
+.activite-date { font-size: 0.85rem; color: #555; }
+.activite-prevue-card p { font-size: 0.9rem; color: #444; margin-bottom: 0.4rem; }
+.participants-messages { margin: 0.5rem 0; }
+.participant-message { font-size: 0.85rem; color: #555; border-left: 3px solid #b2d8c0; padding-left: 0.5rem; margin-bottom: 0.3rem; }
+.message-form { margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.message-form label { font-size: 0.8rem; color: #555; }
+.input-message { font-family: inherit; font-size: 0.9rem; padding: 0.4rem 0.6rem; border: 1px solid #b2d8c0; border-radius: 4px; resize: vertical; }
+.msg-message { font-size: 0.85rem; }
+
+/* ===== ACTIVITÉS ADMIN ===== */
+.activites-admin-section {
+  margin-top: 1rem;
+}
+.activite-groupe-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+.activite-groupe-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.activite-groupe-header strong { font-size: 1rem; color: #143d2a; }
+.badge-granularite {
+  font-size: 0.75rem;
+  background: #e6f4ec;
+  color: #0a3622;
+  border-radius: 20px;
+  padding: 0.15rem 0.6rem;
+}
+.hint-special {
+  font-size: 0.85rem;
+  color: #856404;
+  background: #fff3cd;
+  border-radius: 4px;
+  padding: 0.3rem 0.6rem;
+  margin-bottom: 0.6rem;
+}
+.demandes-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.75rem;
+}
+.demande-admin-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.demande-admin-item:hover { background: #f5f5f5; }
+.demande-admin-item input[type="checkbox"] {
+  accent-color: #143d2a;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+.validation-groupe {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  padding-top: 0.75rem;
+  border-top: 1px solid #eee;
+}
+.validation-groupe select,
+.validation-groupe input[type="text"],
+.validation-groupe input[type="number"] {
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.validation-groupe select { flex: 1; min-width: 150px; }
+.msg-groupe-action { font-size: 0.85rem; }
+
+/* Responsive basique */
+@media (max-width: 600px) {
+  #hero h1 {
+    font-size: 2rem;
+  }
+  .champ-inline { flex-direction: column; }
+  .validation-groupe { flex-direction: column; align-items: flex-start; }
+}

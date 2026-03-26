@@ -1,0 +1,30 @@
+[
+  {
+    "idChambres": 1,
+    "nom": "Suite Ipê Amarelo",
+    "description": "Vue panoramique sur la forêt tropicale, terrasse suspendue.",
+    "capacite": 2,
+    "prix_nuit": 280
+  },
+  {
+    "idChambres": 2,
+    "nom": "Cabana Vitória-Régia",
+    "description": "Bungalow sur pilotis au bord du lac, kayak inclus.",
+    "capacite": 4,
+    "prix_nuit": 420
+  },
+  {
+    "idChambres": 3,
+    "nom": "Villa Araucária",
+    "description": "Grande villa familiale entourée d'araucarias centenaires.",
+    "capacite": 8,
+    "prix_nuit": 680
+  },
+  {
+    "idChambres": 4,
+    "nom": "Loft Canela",
+    "description": "Espace épuré et romantique niché dans les canneaux.",
+    "capacite": 2,
+    "prix_nuit": 190
+  }
+]

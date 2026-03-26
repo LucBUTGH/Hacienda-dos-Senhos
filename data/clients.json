@@ -1,0 +1,44 @@
+[
+    {
+        "idClient": 1,
+        "nom": "Sophie Martin",
+        "email": "sophie.martin@gmail.com",
+        "motDePasse": "$2y$10$tOmwq9AVv6LHHCuqrOwMHeHJw37yD5z59dtHtya5cvr6QsEpPFgZ2",
+        "idResa": 1
+    },
+    {
+        "idClient": 2,
+        "nom": "Lucas Ferreira",
+        "email": "lucas.ferreira@gmail.com",
+        "motDePasse": "$2y$10$8OQINKYBkrX0SGkvQZLa4eAnSyYheK/D54q.woe0t3z5F2FJGyLLO",
+        "idResa": 2
+    },
+    {
+        "idClient": 3,
+        "nom": "Marie Dubois",
+        "email": "marie.dubois@gmail.com",
+        "motDePasse": "$2y$10$lMWG0eF.0.xGB8UIVh7pwOXGWyvWB9RX9M.ijQUIMti.a5liff50a",
+        "idResa": 3
+    },
+    {
+        "idClient": 4,
+        "nom": "Pedro Alves",
+        "email": "pedro.alves@gmail.com",
+        "motDePasse": "$2y$10$7Kh93onuGdkr2.UKdts8COrVpqMiSRc0GR9PyX4DKerdXkpRjaAvK",
+        "idResa": 4
+    },
+    {
+        "idClient": 5,
+        "nom": "Emma Rousseau",
+        "email": "emma.rousseau@gmail.com",
+        "motDePasse": "$2y$10$81xhm7oXMpu/SPuxop4f.Oc8RqRQG3cvzabAVt3qeYKXGXFlW5QnG",
+        "idResa": 5
+    },
+    {
+        "idClient": 6,
+        "nom": "Carlos Mendez",
+        "email": "carlos.mendez@gmail.com",
+        "motDePasse": "$2y$10$0r4gEKcNDIAlwy/dZLmMNuUTtKBlbYEN1mG9H9ZHJCyFT25e1lXiq",
+        "idResa": 6
+    }
+]

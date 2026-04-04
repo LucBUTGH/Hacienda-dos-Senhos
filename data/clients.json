@@ -10,7 +10,7 @@
         "idClient": 2,
         "nom": "Lucas Ferreira",
         "email": "lucas.ferreira@gmail.com",
-        "motDePasse": "$2y$10$8OQINKYBkrX0SGkvQZLa4eAnSyYheK/D54q.woe0t3z5F2FJGyLLO",
+        "motDePasse": "$2y$10$8OQINKYBkrX0SGkvQZLa4eAnSyYheK\/D54q.woe0t3z5F2FJGyLLO",
         "idResa": 2
     },
     {
@@ -31,14 +31,21 @@
         "idClient": 5,
         "nom": "Emma Rousseau",
         "email": "emma.rousseau@gmail.com",
-        "motDePasse": "$2y$10$81xhm7oXMpu/SPuxop4f.Oc8RqRQG3cvzabAVt3qeYKXGXFlW5QnG",
+        "motDePasse": "$2y$10$6pME4cK2qpoEwVbiCn4sneiE3wkx2UrCz21XQkBUQVCaaDvCLHMNe",
         "idResa": 5
     },
     {
         "idClient": 6,
         "nom": "Carlos Mendez",
         "email": "carlos.mendez@gmail.com",
-        "motDePasse": "$2y$10$0r4gEKcNDIAlwy/dZLmMNuUTtKBlbYEN1mG9H9ZHJCyFT25e1lXiq",
+        "motDePasse": "$2y$10$0r4gEKcNDIAlwy\/dZLmMNuUTtKBlbYEN1mG9H9ZHJCyFT25e1lXiq",
         "idResa": 6
+    },
+    {
+        "idClient": 7,
+        "nom": "Emma Rousseau",
+        "email": "emma.rousseau@gmail.com",
+        "motDePasse": "$2y$10$OPKN38xPHOvL4o20SPEBpeF2kXAsIEajuLGR2DmLR2PpWMf\/Tuivy",
+        "idResa": 5
     }
 ]

@@ -595,6 +595,95 @@ footer p {
 .validation-groupe select { flex: 1; min-width: 150px; }
 .msg-groupe-action { font-size: 0.85rem; }
 
+/* ===== FACTURE ===== */
+.facture-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+.facture-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.facture-table th {
+  text-align: left;
+  font-size: 0.8rem;
+  color: #888;
+  border-bottom: 2px solid #ddd;
+  padding: 0.4rem 0.6rem;
+}
+.facture-table td {
+  padding: 0.5rem 0.6rem;
+  border-bottom: 1px solid #eee;
+}
+.facture-montant {
+  text-align: right;
+  white-space: nowrap;
+}
+.facture-reduction {
+  font-size: 0.8rem;
+  color: #b00020;
+  font-weight: 600;
+}
+.facture-arrhes td {
+  color: #1d5c3f;
+  font-weight: 600;
+}
+.facture-total td {
+  border-top: 2px solid #143d2a;
+  border-bottom: none;
+  font-size: 1rem;
+  padding-top: 0.6rem;
+}
+
+/* ===== ADMIN FACTURATION ===== */
+.admin-facturation {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #eee;
+}
+.admin-arrhes {
+  margin-bottom: 0.75rem;
+}
+.admin-arrhes label,
+.admin-reductions > label {
+  font-size: 0.8rem;
+  color: #555;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+.admin-arrhes .input-arrhes {
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.msg-arrhes { font-size: 0.85rem; margin-left: 0.3rem; }
+.admin-reductions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.reduction-ligne {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+}
+.reduction-ligne span:first-child { flex: 1; }
+.reduction-ligne .select-reduction {
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 0.25rem 0.4rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.msg-reduction { font-size: 0.8rem; }
+
 /* Responsive basique */
 @media (max-width: 600px) {
   #hero h1 {

@@ -171,8 +171,9 @@ function refreshCardRooms($card) {
     const debut  = $card.data('debut');
     const fin    = $card.data('fin');
     const idResa = $card.data('id');
+    const nbPersonnes = $card.data('nb-personnes');
 
-    $.get('ajax/chambres_dispo.php', { debut: debut, fin: fin }, function (data) {
+    $.get('ajax/chambres_dispo.php', { debut: debut, fin: fin, nb_personnes: nbPersonnes }, function (data) {
         const $actions    = $card.find('.resa-actions');
         const refuserBtn  = '<button class="btn-refuser" data-id="' + idResa + '">Refuser</button>';
 
@@ -235,6 +236,53 @@ $(document).ready(function () {
         }, 'json').fail(function () {
             $msg.removeClass('succes').addClass('erreur').text('Erreur réseau.').show();
             $btn.prop('disabled', false);
+        });
+    });
+
+    // Enregistrer les arrhes
+    $(document).on('click', '.btn-arrhes', function () {
+        const $btn  = $(this);
+        const idResa = $btn.data('id');
+        const $card = $btn.closest('.resa-card');
+        const arrhes = $card.find('.input-arrhes').val();
+        const $msg  = $card.find('.msg-arrhes');
+
+        $btn.prop('disabled', true);
+        $msg.text('');
+
+        $.post('ajax/enregistrer_arrhes.php', { idResa: idResa, arrhes: arrhes }, function (data) {
+            $msg.css('color', data.ok ? '#1d5c3f' : '#b00020')
+                .text(data.ok ? 'Arrhes enregistrées.' : data.erreur);
+            $btn.prop('disabled', false);
+        }, 'json').fail(function () {
+            $msg.css('color', '#b00020').text('Erreur réseau.');
+            $btn.prop('disabled', false);
+        });
+    });
+
+    // Appliquer une réduction sur une prestation
+    $(document).on('change', '.select-reduction', function () {
+        const $select = $(this);
+        const $ligne  = $select.closest('.reduction-ligne');
+        const $msg    = $ligne.find('.msg-reduction');
+        const idResa      = $ligne.data('id-resa');
+        const idPrestation = $ligne.data('id-prestation');
+        const reduction    = $select.val();
+
+        $msg.text('');
+
+        $.post('ajax/appliquer_reduction.php', {
+            idResa: idResa,
+            idPrestation: idPrestation,
+            reduction: reduction
+        }, function (data) {
+            $msg.css('color', data.ok ? '#1d5c3f' : '#b00020')
+                .text(data.ok ? 'OK' : data.erreur);
+            if (data.ok) {
+                setTimeout(function () { $msg.text(''); }, 1500);
+            }
+        }, 'json').fail(function () {
+            $msg.css('color', '#b00020').text('Erreur');
         });
     });
 

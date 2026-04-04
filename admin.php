@@ -10,7 +10,7 @@ $clients      = lireJson('clients.json');
 // Index prestations par ID pour résolution rapide
 $prestationsIndex = [];
 foreach (lireJson('prestations.json') as $p) {
-    $prestationsIndex[$p['idPrestation']] = $p['nom'];
+    $prestationsIndex[$p['idPrestation']] = $p;
 }
 $animateurs = lireJson('animateurs.json');
 
@@ -26,11 +26,9 @@ foreach ($clients as $cl) {
     $clientsParResa[$cl['idResa']] = $cl;
 }
 
-// Résumé occupation des chambres (toutes dates confondues, résas validées)
-$chambresOccupees = array_unique(array_column(
-    array_filter($reservations, fn($r) => $r['statut'] === 'validee'),
-    'idChambre'
-));
+// Résumé occupation des chambres aujourd'hui
+$aujourdHui = date('Y-m-d');
+$chambresLibresAujourdHui = chambresDisponibles($chambres, $reservations, $aujourdHui, date('Y-m-d', strtotime('+1 day')));
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -64,8 +62,8 @@ $chambresOccupees = array_unique(array_column(
             <span class="stat-label">En attente</span>
         </div>
         <div class="stat">
-            <span class="stat-val"><?= count($chambres) - count($chambresOccupees) ?> / <?= count($chambres) ?></span>
-            <span class="stat-label">Chambres libres</span>
+            <span class="stat-val"><?= count($chambresLibresAujourdHui) ?> / <?= count($chambres) ?></span>
+            <span class="stat-label">Chambres libres aujourd'hui</span>
         </div>
     </div>
 
@@ -86,7 +84,7 @@ $chambresOccupees = array_unique(array_column(
                 }
             }
         ?>
-        <div class="resa-card resa-<?= $r['statut'] ?>" data-id="<?= $r['idResa'] ?>" data-debut="<?= $r['date_debut'] ?>" data-fin="<?= $r['date_fin'] ?>">
+        <div class="resa-card resa-<?= $r['statut'] ?>" data-id="<?= $r['idResa'] ?>" data-debut="<?= $r['date_debut'] ?>" data-fin="<?= $r['date_fin'] ?>" data-nb-personnes="<?= $r['nb_personnes'] ?>">
             <div class="resa-header">
                 <div>
                     <span class="badge badge-<?= $r['statut'] ?>">
@@ -105,7 +103,7 @@ $chambresOccupees = array_unique(array_column(
                 <p><?= htmlspecialchars($r['email']) ?></p>
                 <?php
                 $nomsPrestations = is_array($r['prestations'])
-                    ? array_map(fn($id) => $prestationsIndex[$id] ?? "Prestation #$id", $r['prestations'])
+                    ? array_map(fn($id) => $prestationsIndex[$id]['nom'] ?? "Prestation #$id", $r['prestations'])
                     : ($r['prestations'] ? [$r['prestations']] : []);
                 $activitesSouhaitees = is_string($r['activites_souhaitees'] ?? '')
                     ? ($r['activites_souhaitees'] ?? '')
@@ -143,6 +141,46 @@ $chambresOccupees = array_unique(array_column(
                 <button class="btn-refuser" data-id="<?= $r['idResa'] ?>">Refuser</button>
             </div>
             <div class="msg-action"></div>
+            <?php endif; ?>
+
+            <?php if ($r['statut'] === 'validee'): ?>
+            <!-- Arrhes -->
+            <div class="admin-facturation">
+                <div class="admin-arrhes">
+                    <label>Arrhes reçues (€)</label>
+                    <div class="champ-inline" style="gap:.5rem">
+                        <input type="number" class="input-arrhes" min="0" step="0.01"
+                            value="<?= $r['arrhes'] ?? 0 ?>" style="width:120px">
+                        <button class="btn-arrhes btn-action" data-id="<?= $r['idResa'] ?>">Enregistrer</button>
+                        <span class="msg-arrhes"></span>
+                    </div>
+                </div>
+
+                <!-- Réductions sur prestations -->
+                <?php if (!empty($r['prestations'])): ?>
+                <div class="admin-reductions">
+                    <label>Réductions sur prestations</label>
+                    <?php
+                    $reductions = (array) ($r['reductions'] ?? []);
+                    foreach ($r['prestations'] as $idP):
+                        $presta = $prestationsIndex[$idP] ?? null;
+                        if (!$presta) continue;
+                        $reducActuelle = intval($reductions[$idP] ?? 0);
+                    ?>
+                    <div class="reduction-ligne" data-id-resa="<?= $r['idResa'] ?>" data-id-prestation="<?= $idP ?>">
+                        <span><?= htmlspecialchars($presta['nom']) ?> (<?= $presta['prix'] ?>€)</span>
+                        <select class="select-reduction">
+                            <option value="0" <?= $reducActuelle === 0 ? 'selected' : '' ?>>Aucune</option>
+                            <option value="10" <?= $reducActuelle === 10 ? 'selected' : '' ?>>-10%</option>
+                            <option value="20" <?= $reducActuelle === 20 ? 'selected' : '' ?>>-20%</option>
+                            <option value="50" <?= $reducActuelle === 50 ? 'selected' : '' ?>>-50%</option>
+                        </select>
+                        <span class="msg-reduction"></span>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
+            </div>
             <?php endif; ?>
         </div>
         <?php endforeach; ?>

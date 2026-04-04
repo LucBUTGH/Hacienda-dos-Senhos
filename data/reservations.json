@@ -6,10 +6,15 @@
         "date_debut": "2026-03-24",
         "date_fin": "2026-03-30",
         "nb_personnes": 2,
-        "prestations": [1, 3],
+        "prestations": [
+            1,
+            3
+        ],
         "activites_souhaitees": "Equitation et activités nature",
         "statut": "validee",
-        "idChambre": 1
+        "idChambre": 1,
+        "arrhes": 0,
+        "reductions": []
     },
     {
         "idResa": 2,
@@ -18,10 +23,15 @@
         "date_debut": "2026-03-26",
         "date_fin": "2026-04-02",
         "nb_personnes": 6,
-        "prestations": [2, 4],
+        "prestations": [
+            2,
+            4
+        ],
         "activites_souhaitees": "Sports collectifs, futebol si possible",
         "statut": "validee",
-        "idChambre": 3
+        "idChambre": 3,
+        "arrhes": 0,
+        "reductions": []
     },
     {
         "idResa": 3,
@@ -30,10 +40,15 @@
         "date_debut": "2026-03-28",
         "date_fin": "2026-04-04",
         "nb_personnes": 3,
-        "prestations": [1, 2],
+        "prestations": [
+            1,
+            2
+        ],
         "activites_souhaitees": "Randonnée et nature",
         "statut": "validee",
-        "idChambre": 2
+        "idChambre": 2,
+        "arrhes": 0,
+        "reductions": []
     },
     {
         "idResa": 4,
@@ -45,7 +60,9 @@
         "prestations": [],
         "activites_souhaitees": "",
         "statut": "en_attente",
-        "idChambre": 4
+        "idChambre": 4,
+        "arrhes": 0,
+        "reductions": []
     },
     {
         "idResa": 5,
@@ -54,10 +71,16 @@
         "date_debut": "2026-04-12",
         "date_fin": "2026-04-17",
         "nb_personnes": 2,
-        "prestations": [3, 5],
+        "prestations": [
+            3,
+            4,
+            5
+        ],
         "activites_souhaitees": "Spa et activités détente",
-        "statut": "en_attente",
-        "idChambre": 1
+        "statut": "validee",
+        "idChambre": 4,
+        "arrhes": 0,
+        "reductions": []
     },
     {
         "idResa": 6,
@@ -66,9 +89,13 @@
         "date_debut": "2026-03-18",
         "date_fin": "2026-03-22",
         "nb_personnes": 4,
-        "prestations": [2],
+        "prestations": [
+            2
+        ],
         "activites_souhaitees": "Pêche",
         "statut": "refusee",
-        "idChambre": 2
+        "idChambre": 2,
+        "arrhes": 0,
+        "reductions": []
     }
 ]

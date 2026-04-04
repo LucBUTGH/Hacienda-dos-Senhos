@@ -49,6 +49,8 @@ $nouvelle = [
     'activites_souhaitees' => $activ,
     'statut'               => 'en_attente',
     'idChambre'            => null,
+    'arrhes'               => 0,
+    'reductions'           => (object) [],
 ];
 
 $reservations[] = $nouvelle;

@@ -2,6 +2,7 @@
 require_once 'helpers.php';
 require_once 'auth.php';
 sessionStart();
+header('Cache-Control: no-store, no-cache, must-revalidate');
 $chambres    = lireJson('chambres.json');
 $prestations = lireJson('prestations.json');
 ?>

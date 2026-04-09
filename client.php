@@ -41,11 +41,34 @@ $nbNuits = ($resa)
     ? (new DateTime($resa['date_debut']))->diff(new DateTime($resa['date_fin']))->days
     : 0;
 
+// ===== CALCUL FACTURE =====
+$prestationsMap = [];
+foreach (lireJson('prestations.json') as $p) {
+    $prestationsMap[$p['idPrestation']] = $p;
+}
+
+$totalChambre = $chambre ? $chambre['prix_nuit'] * $nbNuits : 0;
+
+$lignesPrestations = [];
+$totalPrestations  = 0;
+if ($resa) {
+    foreach (($resa['prestations'] ?? []) as $idP) {
+        if (isset($prestationsMap[$idP])) {
+            $p       = $prestationsMap[$idP];
+            $montant = $p['prix'] * $nbNuits;
+            $lignesPrestations[] = ['nom' => $p['nom'], 'prix' => $p['prix'], 'montant' => $montant];
+            $totalPrestations   += $montant;
+        }
+    }
+}
+
 // Charger les demandes et activités prévues du client
 $demandesClient   = [];
 $activitesPrevues = [];
+$demandesMap      = [];
 if ($resa) {
     foreach (lireJson('demandes_activites.json') as $d) {
+        $demandesMap[$d['idDemande']] = $d;
         if ($d['idResa'] === $resa['idResa']) $demandesClient[] = $d;
     }
     // Activités prévues où ce client est participant
@@ -59,6 +82,34 @@ if ($resa) {
         }
     }
 }
+
+// Lignes activités confirmées pour la facture
+$lignesActivites = [];
+$totalActivites  = 0;
+foreach ($activitesPrevues as $ap) {
+    $act = $activitesIndex[$ap['idActivite']] ?? null;
+    if (!$act) continue;
+    foreach (($ap['idDemandes'] ?? []) as $idD) {
+        $d = $demandesMap[$idD] ?? null;
+        if ($d && $d['idResa'] === $resa['idResa']) {
+            $granularite = $d['granularite'];
+            $tarif       = $act['tarifs'][$granularite] ?? 0;
+            $montant     = $tarif * $d['nb_personnes'];
+            $lignesActivites[] = [
+                'nom'         => $act['nom'],
+                'granularite' => $granularite,
+                'nb'          => $d['nb_personnes'],
+                'tarif'       => $tarif,
+                'montant'     => $montant,
+            ];
+            $totalActivites += $montant;
+        }
+    }
+}
+
+$totalHT          = $totalChambre + $totalPrestations + $totalActivites;
+$arrhes           = (int) round($totalChambre * 0.30);
+$resteAPayer      = $totalHT - $arrhes;
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -128,6 +179,66 @@ if ($resa) {
             <?php endif; ?>
         </div>
     </div>
+
+    <?php if ($resa['statut'] !== 'refusee'): ?>
+    <!-- ===== FACTURE ===== -->
+    <h2 class="section-titre">Ma facture</h2>
+    <div class="facture-card">
+        <table class="facture-table">
+            <thead>
+                <tr>
+                    <th>Désignation</th>
+                    <th class="facture-col-num">Qté</th>
+                    <th class="facture-col-num">P.U.</th>
+                    <th class="facture-col-num">Montant</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if ($chambre): ?>
+                <tr>
+                    <td><?= htmlspecialchars($chambre['nom']) ?> — hébergement</td>
+                    <td class="facture-col-num"><?= $nbNuits ?> nuit<?= $nbNuits > 1 ? 's' : '' ?></td>
+                    <td class="facture-col-num"><?= $chambre['prix_nuit'] ?> €</td>
+                    <td class="facture-col-num"><?= $totalChambre ?> €</td>
+                </tr>
+                <?php endif; ?>
+                <?php foreach ($lignesPrestations as $ligne): ?>
+                <tr>
+                    <td><?= htmlspecialchars($ligne['nom']) ?></td>
+                    <td class="facture-col-num"><?= $nbNuits ?> nuit<?= $nbNuits > 1 ? 's' : '' ?></td>
+                    <td class="facture-col-num"><?= $ligne['prix'] ?> €</td>
+                    <td class="facture-col-num"><?= $ligne['montant'] ?> €</td>
+                </tr>
+                <?php endforeach; ?>
+                <tr class="facture-arrhes">
+                    <td colspan="3">Arrhes versées à la réservation <span class="facture-hint">(30 % sur hébergement)</span></td>
+                    <td class="facture-col-num">− <?= $arrhes ?> €</td>
+                </tr>
+                <?php foreach ($lignesActivites as $ligne): ?>
+                <tr>
+                    <td><?= htmlspecialchars($ligne['nom']) ?> <span class="facture-granularite">(<?= $ligne['granularite'] ?>)</span></td>
+                    <td class="facture-col-num"><?= $ligne['nb'] ?> pers.</td>
+                    <td class="facture-col-num"><?= $ligne['tarif'] ?> €</td>
+                    <td class="facture-col-num"><?= $ligne['montant'] ?> €</td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+            <tfoot>
+                <tr class="facture-total">
+                    <td colspan="3">Total séjour</td>
+                    <td class="facture-col-num"><?= $totalHT ?> €</td>
+                </tr>
+                <tr class="facture-reste">
+                    <td colspan="3">Reste à payer à l'arrivée</td>
+                    <td class="facture-col-num"><?= $resteAPayer ?> €</td>
+                </tr>
+            </tfoot>
+        </table>
+        <?php if (empty($lignesActivites)): ?>
+            <p class="facture-note">Les activités confirmées seront ajoutées à cette facture automatiquement.</p>
+        <?php endif; ?>
+    </div>
+    <?php endif; ?>
 
     <?php if ($resa['statut'] === 'validee'): ?>
 

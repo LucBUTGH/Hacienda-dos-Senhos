@@ -595,6 +595,73 @@ footer p {
 .validation-groupe select { flex: 1; min-width: 150px; }
 .msg-groupe-action { font-size: 0.85rem; }
 
+/* ===== FACTURE ===== */
+.facture-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+.facture-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+.facture-table thead tr {
+  border-bottom: 2px solid #143d2a;
+}
+.facture-table thead th {
+  padding: 0.4rem 0.5rem;
+  color: #143d2a;
+  font-weight: bold;
+  text-align: left;
+}
+.facture-col-num {
+  text-align: right !important;
+  white-space: nowrap;
+}
+.facture-table tbody tr {
+  border-bottom: 1px solid #eee;
+}
+.facture-table tbody td {
+  padding: 0.45rem 0.5rem;
+  color: #333;
+}
+.facture-granularite {
+  font-size: 0.8rem;
+  color: #888;
+  font-style: italic;
+}
+.facture-table tfoot tr td {
+  padding: 0.45rem 0.5rem;
+}
+.facture-total td {
+  border-top: 2px solid #143d2a;
+  font-weight: bold;
+  color: #1a1a1a;
+}
+.facture-arrhes td {
+  color: #1d5c3f;
+  font-style: italic;
+}
+.facture-hint {
+  font-size: 0.8rem;
+  color: #888;
+}
+.facture-reste td {
+  border-top: 1px solid #143d2a;
+  font-weight: bold;
+  font-size: 1.05rem;
+  color: #143d2a;
+}
+.facture-note {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: #888;
+  font-style: italic;
+}
+
 /* Responsive basique */
 @media (max-width: 600px) {
   #hero h1 {

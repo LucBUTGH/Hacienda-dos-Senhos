@@ -3,14 +3,14 @@
         "idResa": 1,
         "nom": "Erika",
         "email": "erika@gmail.com",
-        "date_debut": "2026-05-25",
-        "date_fin": "2026-05-28",
+        "date_debut": "2026-04-20",
+        "date_fin": "2026-04-22",
         "nb_personnes": 3,
         "prestations": [
-            1
+            2
         ],
         "activites_souhaitees": "",
         "statut": "validee",
-        "idChambre": 3
+        "idChambre": 2
     }
 ]

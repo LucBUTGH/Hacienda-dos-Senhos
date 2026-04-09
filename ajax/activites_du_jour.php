@@ -32,13 +32,11 @@ foreach ($clients as $cl) {
     $clientsParResa[$cl['idResa']] = $cl;
 }
 
-// Demandes déjà satisfaites pour ce jour
+// Demandes déjà satisfaites (toutes dates confondues — une demande ne peut être planifiée qu'une seule fois)
 $demandesSatisfaites = [];
 foreach ($activitesPrevues as $ap) {
-    if ($ap['date'] === $date) {
-        foreach ($ap['idDemandes'] as $idD) {
-            $demandesSatisfaites[$idD] = true;
-        }
+    foreach ($ap['idDemandes'] as $idD) {
+        $demandesSatisfaites[$idD] = true;
     }
 }
 

@@ -42,6 +42,20 @@ foreach ($demandes as $d) { $demandesIndex[$d['idDemande']] = $d; }
 $activitesIndex = [];
 foreach ($activites as $a) { $activitesIndex[$a['idActivite']] = $a; }
 
+// Demandes déjà planifiées (toutes dates confondues)
+$demandesDejaPlannifiees = [];
+foreach ($activitesPrevues as $ap) {
+    foreach ($ap['idDemandes'] as $idD) {
+        $demandesDejaPlannifiees[$idD] = true;
+    }
+}
+foreach ($idDemandes as $idD) {
+    if (isset($demandesDejaPlannifiees[$idD])) {
+        echo json_encode(['ok' => false, 'erreur' => "La demande #$idD a déjà été planifiée pour un autre jour."]);
+        exit;
+    }
+}
+
 // Vérifier toutes les demandes et construire la liste des participants
 $participants    = [];
 $idActivite      = null;

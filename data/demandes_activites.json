@@ -2,11 +2,11 @@
     {
         "idDemande": 1,
         "idResa": 1,
-        "idActivite": 6,
-        "nb_personnes": 3,
-        "granularite": "heure",
+        "idActivite": 4,
+        "nb_personnes": 2,
+        "granularite": "journee",
         "niveau": null,
-        "difficulte": null,
+        "difficulte": "Facile",
         "mode": null,
         "preferences": "",
         "statut": "validee"

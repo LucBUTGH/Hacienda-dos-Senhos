@@ -8,9 +8,10 @@ $reservations = lireJson('reservations.json');
 $chambres     = lireJson('chambres.json');
 $activites    = lireJson('activites.json');
 
+$prestationsAll = lireJson('prestations.json');
 $prestationsIndex = [];
-foreach (lireJson('prestations.json') as $p) {
-    $prestationsIndex[$p['idPrestation']] = $p['nom'];
+foreach ($prestationsAll as $p) {
+    $prestationsIndex[$p['idPrestation']] = $p;
 }
 $activitesIndex = [];
 foreach ($activites as $a) {
@@ -165,7 +166,7 @@ $resteAPayer      = $totalHT - $arrhes;
             <?php endif; ?>
             <?php
             $nomsPrestations = is_array($resa['prestations'])
-                ? array_map(fn($id) => $prestationsIndex[$id] ?? "Prestation #$id", $resa['prestations'])
+                ? array_map(fn($id) => $prestationsIndex[$id]['nom'] ?? "Prestation #$id", $resa['prestations'])
                 : ($resa['prestations'] ? [$resa['prestations']] : []);
             $activitesSouhaitees = is_array($resa['activites_souhaitees'])
                 ? implode(', ', $resa['activites_souhaitees'])
@@ -241,6 +242,120 @@ $resteAPayer      = $totalHT - $arrhes;
     <?php endif; ?>
 
     <?php if ($resa['statut'] === 'validee'): ?>
+
+    <!-- ===== SECTION FACTURE ===== -->
+    <h2 class="section-titre">Ma facture prévisionnelle</h2>
+
+    <?php
+    // Calcul facture
+    $totalFacture = 0;
+    $reductions = $resa['reductions'] ?? [];
+    $arrhes = $resa['arrhes'] ?? 0;
+
+    // Demandes d'activités validées pour ce client
+    $demandesValidees = [];
+    foreach (lireJson('demandes_activites.json') as $d) {
+        if ($d['idResa'] === $resa['idResa'] && $d['statut'] === 'validee') {
+            $demandesValidees[] = $d;
+        }
+    }
+    ?>
+
+    <div class="facture-card" id="facture-card">
+        <table class="facture-table">
+            <thead>
+                <tr>
+                    <th>Désignation</th>
+                    <th>Détail</th>
+                    <th class="facture-montant">Montant</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Hébergement -->
+                <?php if ($chambre): ?>
+                <?php $prixChambre = $chambre['prix_nuit'] * $nbNuits; $totalFacture += $prixChambre; ?>
+                <tr>
+                    <td>Hébergement</td>
+                    <td><?= htmlspecialchars($chambre['nom']) ?> — <?= $chambre['prix_nuit'] ?>€ × <?= $nbNuits ?> nuit<?= $nbNuits > 1 ? 's' : '' ?></td>
+                    <td class="facture-montant"><?= $prixChambre ?>€</td>
+                </tr>
+                <?php endif; ?>
+
+                <!-- Prestations -->
+                <?php foreach ($resa['prestations'] as $idP):
+                    $presta = $prestationsIndex[$idP] ?? null;
+                    if (!$presta) continue;
+                    $reduc = intval($reductions[$idP] ?? 0);
+                    $prixPresta = $presta['prix'] * (1 - $reduc / 100);
+                    $totalFacture += $prixPresta;
+                ?>
+                <tr>
+                    <td>Prestation</td>
+                    <td>
+                        <?= htmlspecialchars($presta['nom']) ?>
+                        <?php if ($reduc > 0): ?>
+                            <span class="facture-reduction">(-<?= $reduc ?>%)</span>
+                        <?php endif; ?>
+                    </td>
+                    <td class="facture-montant"><?= number_format($prixPresta, 2, ',', '') ?>€</td>
+                </tr>
+                <?php endforeach; ?>
+
+                <!-- Activités validées -->
+                <?php foreach ($demandesValidees as $dv):
+                    $actInfo = $activitesIndex[$dv['idActivite']] ?? null;
+                    if (!$actInfo) continue;
+                    $prixAct = ($actInfo['tarifs'][$dv['granularite']] ?? 0) * $dv['nb_personnes'];
+                    $totalFacture += $prixAct;
+                    $labelsGran = ['heure' => 'à l\'heure', 'demi-journee' => 'demi-journée', 'journee' => 'journée'];
+                ?>
+                <tr>
+                    <td>Activité</td>
+                    <td>
+                        <?= htmlspecialchars($actInfo['nom']) ?>
+                        — <?= $labelsGran[$dv['granularite']] ?? $dv['granularite'] ?>, <?= $dv['nb_personnes'] ?> pers.
+                    </td>
+                    <td class="facture-montant"><?= number_format($prixAct, 2, ',', '') ?>€</td>
+                </tr>
+                <?php endforeach; ?>
+
+                <!-- Arrhes -->
+                <?php if ($arrhes > 0): $totalFacture -= $arrhes; ?>
+                <tr class="facture-arrhes">
+                    <td>Arrhes reçues</td>
+                    <td></td>
+                    <td class="facture-montant">-<?= number_format($arrhes, 2, ',', '') ?>€</td>
+                </tr>
+                <?php endif; ?>
+            </tbody>
+            <tfoot>
+                <tr class="facture-total">
+                    <td colspan="2"><strong>Total</strong></td>
+                    <td class="facture-montant"><strong><?= number_format($totalFacture, 2, ',', '') ?>€</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <!-- ===== COMMANDE DE PRESTATIONS ===== -->
+    <h2 class="section-titre">Commander des prestations</h2>
+    <div class="activite-form-card">
+        <p style="font-size:.85rem;color:#888;margin-bottom:1rem">Cochez les prestations souhaitées. Elles seront ajoutées directement à votre facture.</p>
+        <div id="msg-prestations"></div>
+        <form id="form-prestations">
+            <div class="liste-options">
+                <?php foreach ($prestationsAll as $p): ?>
+                <label class="option-item">
+                    <input type="checkbox" name="prestations[]" value="<?= $p['idPrestation'] ?>"
+                        <?= in_array($p['idPrestation'], $resa['prestations']) ? 'checked' : '' ?>>
+                    <?= htmlspecialchars($p['nom']) ?>
+                    <span class="option-prix"><?= $p['prix'] ?>€</span>
+                </label>
+                <?php endforeach; ?>
+            </div>
+            <button type="submit" class="btn-action" style="margin-top:.75rem">Enregistrer les prestations</button>
+        </form>
+    </div>
 
     <!-- ===== SECTION ACTIVITÉS ===== -->
     <h2 class="section-titre">Mes activités</h2>

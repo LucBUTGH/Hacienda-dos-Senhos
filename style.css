@@ -662,6 +662,7 @@ footer p {
   font-style: italic;
 }
 
+
 /* Responsive basique */
 @media (max-width: 600px) {
   #hero h1 {

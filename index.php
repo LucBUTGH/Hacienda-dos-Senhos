@@ -31,6 +31,7 @@ $prestations = lireJson('prestations.json');
             <?php if (($_SESSION['role'] ?? '') === 'client'): ?>
                 <a href="client.php">Mes réservations</a>
             <?php endif; ?>
+            <a href="login.php" class="btn-connexion">Se connecter</a>
         </div>
     </div>
 </nav>

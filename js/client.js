@@ -108,6 +108,26 @@ $(document).ready(function () {
         });
     });
 
+    // ── Commande de prestations ──────────────────────────────────────
+    $('#form-prestations').on('submit', function (e) {
+        e.preventDefault();
+
+        const $msg = $('#msg-prestations');
+        $msg.removeClass('succes erreur').text('').hide();
+
+        $.post('ajax/commander_prestation.php', $(this).serialize(), function (data) {
+            if (data.ok) {
+                $msg.addClass('succes').text('Prestations mises à jour.').show();
+                // Recharger la page pour actualiser la facture
+                setTimeout(function () { location.reload(); }, 800);
+            } else {
+                $msg.addClass('erreur').text(data.erreur).show();
+            }
+        }, 'json').fail(function () {
+            $msg.addClass('erreur').text('Erreur réseau.').show();
+        });
+    });
+
     // ── Message sur activité validée ─────────────────────────────────
     $(document).on('click', '.btn-save-message', function () {
         const $btn  = $(this);

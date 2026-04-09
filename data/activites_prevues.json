@@ -1,18 +1,1 @@
-[
-    {
-        "idActivitePrevue": 1,
-        "idDemandes": [
-            1
-        ],
-        "idActivite": 4,
-        "date": "2026-04-20",
-        "animateur": "Miguel",
-        "participants": [
-            {
-                "idResa": 1,
-                "message": ""
-            }
-        ],
-        "nb_min": null
-    }
-]
+[]

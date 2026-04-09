@@ -55,6 +55,11 @@ if (in_array('mode', $activiteInfo['champs_extra']) && !in_array($mode, ['intern
     echo json_encode(['ok' => false, 'erreur' => 'Veuillez choisir un mode de participation.']);
     exit;
 }
+// En mode interne, le groupe est limité à la réservation : on vérifie le minimum dès la demande
+if ($mode === 'interne' && isset($activiteInfo['nb_min_personnes']) && $nbPersonnes < $activiteInfo['nb_min_personnes']) {
+    echo json_encode(['ok' => false, 'erreur' => "Le mode \"Entre nous\" requiert au moins {$activiteInfo['nb_min_personnes']} participants (vous en avez indiqué {$nbPersonnes})."]);
+    exit;
+}
 
 // Retrouver la réservation du client connecté via sa session
 $clients = lireJson('clients.json');

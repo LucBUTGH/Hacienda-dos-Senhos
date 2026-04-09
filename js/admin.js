@@ -75,7 +75,7 @@ function chargerActivitesDuJour(date) {
 
             if (typeSpec === 'groupe') {
                 const nbMinDef = act.nb_min_personnes || 0;
-                html += '<input type="number" class="input-nb-min" min="1" value="' + nbMinDef + '" placeholder="Min. participants" style="width:150px" title="Seuil minimum de participants">';
+                html += '<input type="number" class="input-nb-min" min="' + nbMinDef + '" value="' + nbMinDef + '" placeholder="Min. participants" style="width:150px" title="Seuil minimum de participants">';
             }
 
             html += '<button class="btn-valider-activite btn-action">Valider la sélection</button>';

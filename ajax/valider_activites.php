@@ -90,9 +90,10 @@ if (!$activiteInfo) {
 }
 
 // Règle métier : les activités de type "groupe" ont un nombre minimum de participants
-// L'admin peut ajuster ce seuil manuellement, sinon on prend la valeur par défaut du catalogue
+// L'admin peut augmenter ce seuil, mais jamais le descendre sous le minimum du catalogue
 if ($activiteInfo['type_special'] === 'groupe') {
-    $seuilEffectif = $nbMin > 0 ? $nbMin : ($activiteInfo['nb_min_personnes'] ?? 0);
+    $catalogMin    = $activiteInfo['nb_min_personnes'] ?? 0;
+    $seuilEffectif = max($nbMin > 0 ? $nbMin : 0, $catalogMin);
     if ($seuilEffectif > 0 && $totalPersonnes < $seuilEffectif) {
         echo json_encode([
             'ok'     => false,

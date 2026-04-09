@@ -37,7 +37,10 @@ function chargerActivitesDuJour(date) {
             html += '<div class="activite-groupe-card" data-type="' + typeSpec + '" data-date="' + date + '">';
             html += '<div class="activite-groupe-header">';
             html += '<strong>' + act.nom + '</strong>';
-            html += ' <span class="badge-granularite">' + act.granularite + ' · ' + act.prix + '€</span>';
+            const labelsGranH = { 'heure': 'À l\'heure', 'demi-journee': 'Demi-journée', 'journee': 'Journée' };
+            const tarifsEntries = Object.entries(act.tarifs || {});
+            const tarifsStr = tarifsEntries.map(function([g, p]) { return (labelsGranH[g] || g) + ' ' + p + '€'; }).join(' · ');
+            html += ' <span class="badge-granularite">' + tarifsStr + '</span>';
             html += '</div>';
 
             // Avertissement activités de groupe

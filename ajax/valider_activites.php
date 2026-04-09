@@ -100,4 +100,17 @@ if (!ecrireJson('activites_prevues.json', $activitesPrevues)) {
     exit;
 }
 
+// Mettre à jour le statut des demandes validées
+foreach ($demandes as &$d) {
+    if (in_array($d['idDemande'], $idDemandes)) {
+        $d['statut'] = 'validee';
+    }
+}
+unset($d);
+
+if (!ecrireJson('demandes_activites.json', $demandes)) {
+    echo json_encode(['ok' => false, 'erreur' => 'Erreur serveur (mise à jour demandes).']);
+    exit;
+}
+
 echo json_encode(['ok' => true]);

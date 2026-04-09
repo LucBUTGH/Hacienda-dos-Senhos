@@ -1,74 +1,16 @@
 [
     {
         "idResa": 1,
-        "nom": "Sophie Martin",
-        "email": "sophie.martin@gmail.com",
-        "date_debut": "2026-03-24",
-        "date_fin": "2026-03-30",
-        "nb_personnes": 2,
-        "prestations": [1, 3],
-        "activites_souhaitees": "Equitation et activités nature",
-        "statut": "validee",
-        "idChambre": 1
-    },
-    {
-        "idResa": 2,
-        "nom": "Lucas Ferreira",
-        "email": "lucas.ferreira@gmail.com",
-        "date_debut": "2026-03-26",
-        "date_fin": "2026-04-02",
-        "nb_personnes": 6,
-        "prestations": [2, 4],
-        "activites_souhaitees": "Sports collectifs, futebol si possible",
+        "nom": "Erika",
+        "email": "erika@gmail.com",
+        "date_debut": "2026-05-25",
+        "date_fin": "2026-05-28",
+        "nb_personnes": 3,
+        "prestations": [
+            1
+        ],
+        "activites_souhaitees": "",
         "statut": "validee",
         "idChambre": 3
-    },
-    {
-        "idResa": 3,
-        "nom": "Marie Dubois",
-        "email": "marie.dubois@gmail.com",
-        "date_debut": "2026-03-28",
-        "date_fin": "2026-04-04",
-        "nb_personnes": 3,
-        "prestations": [1, 2],
-        "activites_souhaitees": "Randonnée et nature",
-        "statut": "validee",
-        "idChambre": 2
-    },
-    {
-        "idResa": 4,
-        "nom": "Pedro Alves",
-        "email": "pedro.alves@gmail.com",
-        "date_debut": "2026-04-05",
-        "date_fin": "2026-04-10",
-        "nb_personnes": 2,
-        "prestations": [],
-        "activites_souhaitees": "",
-        "statut": "en_attente",
-        "idChambre": 4
-    },
-    {
-        "idResa": 5,
-        "nom": "Emma Rousseau",
-        "email": "emma.rousseau@gmail.com",
-        "date_debut": "2026-04-12",
-        "date_fin": "2026-04-17",
-        "nb_personnes": 2,
-        "prestations": [3, 5],
-        "activites_souhaitees": "Spa et activités détente",
-        "statut": "en_attente",
-        "idChambre": 1
-    },
-    {
-        "idResa": 6,
-        "nom": "Carlos Mendez",
-        "email": "carlos.mendez@gmail.com",
-        "date_debut": "2026-03-18",
-        "date_fin": "2026-03-22",
-        "nb_personnes": 4,
-        "prestations": [2],
-        "activites_souhaitees": "Pêche",
-        "statut": "refusee",
-        "idChambre": 2
     }
 ]

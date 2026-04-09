@@ -197,11 +197,12 @@ if ($resa) {
     </div>
 
     <!-- Liste des demandes en attente -->
+    <?php $demandesEnAttente = array_filter($demandesClient, fn($d) => ($d['statut'] ?? 'en_attente') !== 'validee'); ?>
     <div id="liste-demandes">
-        <?php if (empty($demandesClient)): ?>
-            <p class="vide" id="vide-demandes">Aucune demande d'activité pour l'instant.</p>
+        <?php if (empty($demandesEnAttente)): ?>
+            <p class="vide" id="vide-demandes">Aucune demande d'activité en attente.</p>
         <?php else: ?>
-            <?php foreach ($demandesClient as $d):
+            <?php foreach ($demandesEnAttente as $d):
                 $act = $activitesIndex[$d['idActivite']] ?? null;
             ?>
             <div class="demande-card">

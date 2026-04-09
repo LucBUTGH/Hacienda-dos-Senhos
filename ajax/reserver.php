@@ -60,7 +60,7 @@ $nouvelle = [
     'activites_souhaitees' => $activ,
     'statut'               => 'en_attente',
     'idChambre'            => null,  // attribué lors de la validation admin
-    'arrhes'               => 0,     // versées plus tard via enregistrer_arrhes.php
+    'arrhes'               => 0,
     'reductions'           => (object) [], // objet JSON vide, clé = idPrestation, valeur = % réduction
 ];
 

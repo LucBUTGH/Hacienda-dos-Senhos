@@ -240,27 +240,6 @@ $(document).ready(function () {
         });
     });
 
-    // Enregistrer les arrhes
-    $(document).on('click', '.btn-arrhes', function () {
-        const $btn  = $(this);
-        const idResa = $btn.data('id');
-        const $card = $btn.closest('.resa-card');
-        const arrhes = $card.find('.input-arrhes').val();
-        const $msg  = $card.find('.msg-arrhes');
-
-        $btn.prop('disabled', true);
-        $msg.text('');
-
-        $.post('ajax/enregistrer_arrhes.php', { idResa: idResa, arrhes: arrhes }, function (data) {
-            $msg.css('color', data.ok ? '#1d5c3f' : '#b00020')
-                .text(data.ok ? 'Arrhes enregistrées.' : data.erreur);
-            $btn.prop('disabled', false);
-        }, 'json').fail(function () {
-            $msg.css('color', '#b00020').text('Erreur réseau.');
-            $btn.prop('disabled', false);
-        });
-    });
-
     // Appliquer une réduction sur une prestation
     $(document).on('change', '.select-reduction', function () {
         const $select = $(this);

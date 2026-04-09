@@ -1,11 +1,15 @@
 <?php
-// activites_du_jour.php — liste des demandes d'activités non satisfaites pour une date donnée
+// activites_du_jour.php — liste des demandes d'activités en attente pour une date donnée
+// Appelé en AJAX depuis js/admin.js quand l'admin sélectionne une date dans la section activités.
+// Retourne les demandes regroupées par type d'activité pour que l'admin puisse les valider ensemble.
+// Une demande apparaît pour chaque jour du séjour du client (pas seulement le jour d'arrivée).
 require_once '../helpers.php';
 require_once '../auth.php';
 requireAdmin();
 
 header('Content-Type: application/json');
 
+// Validation stricte du format de date pour éviter des injections ou des erreurs silencieuses
 $date = trim($_GET['date'] ?? '');
 if (!$date || !preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
     echo json_encode(['ok' => false, 'erreur' => 'Date invalide']);
@@ -18,7 +22,7 @@ $activitesPrevues = lireJson('activites_prevues.json');
 $activites        = lireJson('activites.json');
 $clients          = lireJson('clients.json');
 
-// Index par ID
+// Construction d'index par ID pour des lookups rapides sans boucles imbriquées
 $activitesIndex = [];
 foreach ($activites as $a) {
     $activitesIndex[$a['idActivite']] = $a;
@@ -32,7 +36,8 @@ foreach ($clients as $cl) {
     $clientsParResa[$cl['idResa']] = $cl;
 }
 
-// Demandes déjà satisfaites (toutes dates confondues — une demande ne peut être planifiée qu'une seule fois)
+// Construire un set des demandes déjà planifiées dans une activité prévue
+// Une demande déjà planifiée ne doit plus apparaître dans la liste
 $demandesSatisfaites = [];
 foreach ($activitesPrevues as $ap) {
     foreach ($ap['idDemandes'] as $idD) {
@@ -40,15 +45,17 @@ foreach ($activitesPrevues as $ap) {
     }
 }
 
-// Construire la liste des demandes à afficher (réplication : visible chaque jour du séjour)
+// Filtrer les demandes à afficher :
+// - non encore planifiées
+// - appartenant à un client dont le séjour inclut la date demandée (date_debut <= date < date_fin)
+// - réservation validée (pas en attente ou refusée)
 $result = [];
 foreach ($demandes as $d) {
-    if (isset($demandesSatisfaites[$d['idDemande']])) continue;
+    if (isset($demandesSatisfaites[$d['idDemande']])) continue; // déjà planifiée, on passe
 
     $resa = $resaIndex[$d['idResa']] ?? null;
-    // Seuls les clients avec réservation validée, dont le séjour inclut cette date
-    if (!$resa || $resa['statut'] !== 'validee') continue;
-    if ($resa['date_debut'] > $date || $resa['date_fin'] <= $date) continue;
+    if (!$resa || $resa['statut'] !== 'validee') continue; // réservation invalide
+    if ($resa['date_debut'] > $date || $resa['date_fin'] <= $date) continue; // client pas présent ce jour-là
 
     $activite = $activitesIndex[$d['idActivite']] ?? null;
     $client   = $clientsParResa[$d['idResa']] ?? null;
@@ -67,7 +74,8 @@ foreach ($demandes as $d) {
     ];
 }
 
-// Regrouper par type d'activité pour faciliter la validation groupée
+// Regroupement par type d'activité : l'admin valide des groupes homogènes (ex: tous les tennis ensemble)
+// Le JS affiche ensuite chaque groupe avec ses cases à cocher pour sélectionner les participants
 $parActivite = [];
 foreach ($result as $item) {
     $id = $item['activite']['idActivite'];

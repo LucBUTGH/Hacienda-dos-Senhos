@@ -1,5 +1,7 @@
 <?php
 // demander_activite.php — soumission d'une demande d'activité par le client
+// Appelé en AJAX depuis js/client.js quand le client soumet le formulaire "Faire une demande d'activité".
+// La demande reste en statut "en_attente" jusqu'à ce que l'admin la planifie dans valider_activites.php.
 require_once '../helpers.php';
 require_once '../auth.php';
 requireClient();
@@ -15,7 +17,7 @@ $idActivite  = intval($_POST['idActivite'] ?? 0);
 $nbPersonnes = intval($_POST['nb_personnes'] ?? 0);
 $granularite = trim($_POST['granularite'] ?? '');
 $preferences = trim($_POST['preferences'] ?? '');
-// Champs extra optionnels selon le type d'activité
+// Champs extra optionnels : présents ou non selon le type d'activité (défini dans activites.json > champs_extra)
 $niveau      = trim($_POST['niveau'] ?? '');
 $difficulte  = trim($_POST['difficulte'] ?? '');
 $mode        = trim($_POST['mode'] ?? '');
@@ -25,7 +27,7 @@ if (!$idActivite || $nbPersonnes <= 0 || !$granularite) {
     exit;
 }
 
-// Vérifier que l'activité et la granularite existent
+// Vérifier que l'activité existe et que la granularité choisie est dans sa liste autorisée
 $activites = lireJson('activites.json');
 $activiteInfo = null;
 foreach ($activites as $a) {
@@ -40,7 +42,7 @@ if (!in_array($granularite, $activiteInfo['granularites'])) {
     exit;
 }
 
-// Valider les champs extra requis
+// Validation des champs extra : on ne vérifie que ceux requis par cette activité spécifique
 if (in_array('niveau', $activiteInfo['champs_extra']) && !$niveau) {
     echo json_encode(['ok' => false, 'erreur' => 'Veuillez indiquer votre niveau.']);
     exit;
@@ -54,7 +56,7 @@ if (in_array('mode', $activiteInfo['champs_extra']) && !in_array($mode, ['intern
     exit;
 }
 
-// Trouver la réservation du client
+// Retrouver la réservation du client connecté via sa session
 $clients = lireJson('clients.json');
 $client = null;
 foreach ($clients as $cl) {
@@ -76,7 +78,7 @@ if ($nbPersonnes > $resa['nb_personnes']) {
     exit;
 }
 
-// Vérifier qu'une demande identique n'existe pas déjà
+// Empêcher les doublons : un client ne peut faire qu'une seule demande par type d'activité
 $demandes = lireJson('demandes_activites.json');
 foreach ($demandes as $d) {
     if ($d['idResa'] === $resa['idResa'] && $d['idActivite'] === $idActivite) {
@@ -85,6 +87,8 @@ foreach ($demandes as $d) {
     }
 }
 
+// Création de la demande en statut "en_attente"
+// Les champs extra non applicables sont stockés à null pour garder une structure cohérente
 $nouvelle = [
     'idDemande'    => prochainId($demandes, 'idDemande'),
     'idResa'       => $resa['idResa'],
@@ -105,4 +109,5 @@ if (!ecrireJson('demandes_activites.json', $demandes)) {
     exit;
 }
 
+// On retourne la demande et le nom de l'activité pour que le JS puisse l'afficher immédiatement dans la liste
 echo json_encode(['ok' => true, 'demande' => $nouvelle, 'nomActivite' => $activiteInfo['nom']]);

@@ -1,4 +1,7 @@
 <?php
+// valider_resa.php — l'admin valide une réservation en lui attribuant une chambre
+// Appelé en AJAX depuis js/admin.js quand l'admin clique sur "Valider" dans le dashboard.
+// En plus de valider la réservation, ce fichier CRÉE le compte client (email + mot de passe généré).
 require_once '../helpers.php';
 
 header('Content-Type: application/json');
@@ -20,7 +23,7 @@ $reservations = lireJson('reservations.json');
 $chambres     = lireJson('chambres.json');
 $clients      = lireJson('clients.json');
 
-// Trouver la réservation
+// Retrouver la réservation par son index dans le tableau (on a besoin de l'index pour la modifier)
 $index = null;
 foreach ($reservations as $i => $r) {
     if ($r['idResa'] === $idResa) { $index = $i; break; }
@@ -33,12 +36,13 @@ if ($index === null) {
 
 $resa = $reservations[$index];
 
+// Sécurité : empêche de valider deux fois la même réservation
 if ($resa['statut'] !== 'en_attente') {
     echo json_encode(['ok' => false, 'erreur' => 'Cette réservation a déjà été traitée.']);
     exit;
 }
 
-// Vérifier la chambre existe
+// Vérifier que la chambre choisie existe bien
 $chambre = null;
 foreach ($chambres as $ch) {
     if ($ch['idChambres'] === $idChambre) { $chambre = $ch; break; }
@@ -49,7 +53,8 @@ if (!$chambre) {
     exit;
 }
 
-// Vérifier disponibilité (double-check serveur)
+// Double-check disponibilité côté serveur : le select dans l'UI peut être désynchronisé
+// si une autre réservation vient d'être validée sur la même chambre entre-temps
 $dispo = chambresDisponibles($chambres, $reservations, $resa['date_debut'], $resa['date_fin']);
 $idsDispo = array_column($dispo, 'idChambres');
 
@@ -58,36 +63,38 @@ if (!in_array($idChambre, $idsDispo)) {
     exit;
 }
 
-// Vérifier que la capacité de la chambre est suffisante
+// Vérifier que la capacité de la chambre est suffisante pour le groupe
 if ($chambre['capacite'] < $resa['nb_personnes']) {
     echo json_encode(['ok' => false, 'erreur' => "La chambre \"{$chambre['nom']}\" (capacité {$chambre['capacite']}) ne peut pas accueillir {$resa['nb_personnes']} personnes."]);
     exit;
 }
 
-// Créer le compte client
+// Génération du mot de passe en clair (à communiquer au client par email)
+// Le mot de passe est stocké hashé dans clients.json, jamais en clair
 $motDePasse = genererMotDePasse();
 
 $nouveauClient = [
     'idClient'    => prochainId($clients, 'idClient'),
     'nom'         => $resa['nom'],
     'email'       => $resa['email'],
-    'motDePasse'  => password_hash($motDePasse, PASSWORD_DEFAULT),
-    'idResa'      => $idResa,
+    'motDePasse'  => password_hash($motDePasse, PASSWORD_DEFAULT), // hash bcrypt
+    'idResa'      => $idResa, // lien vers la réservation pour retrouver les données du séjour
 ];
 
 $clients[] = $nouveauClient;
 
-// Mettre à jour la réservation
+// Mise à jour du statut et de la chambre attribuée
 $reservations[$index]['statut']    = 'validee';
 $reservations[$index]['idChambre'] = $idChambre;
 
-// Sauvegarder
+// Sauvegarde atomique des deux fichiers
 if (!ecrireJson('reservations.json', $reservations) || !ecrireJson('clients.json', $clients)) {
     echo json_encode(['ok' => false, 'erreur' => 'Erreur serveur, veuillez réessayer.']);
     exit;
 }
 
-// Construire le message type pour l'admin
+// Construction du message type que l'admin devra envoyer manuellement au client par email
+// Ce message contient les identifiants de connexion à l'espace client
 $protocole = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
 $urlClient = $protocole . '://' . $_SERVER['HTTP_HOST'] . '/client.php';
 
@@ -107,7 +114,7 @@ $messageType = "Bonjour {$resa['nom']},\n\n"
 
 echo json_encode([
     'ok'           => true,
-    'messageType'  => $messageType,
+    'messageType'  => $messageType, // affiché dans un textarea dans l'UI admin pour copier-coller
     'nomChambre'   => $chambre['nom'],
     'nomClient'    => $resa['nom'],
 ]);

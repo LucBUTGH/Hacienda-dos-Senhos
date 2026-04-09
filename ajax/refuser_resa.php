@@ -1,4 +1,8 @@
 <?php
+// refuser_resa.php — l'admin refuse une réservation en attente
+// Appelé en AJAX depuis js/admin.js quand l'admin clique sur "Refuser".
+// Simple changement de statut : la réservation reste dans le fichier mais ne peut plus être traitée.
+// Aucun compte client n'est créé (contrairement à valider_resa.php).
 require_once '../helpers.php';
 
 header('Content-Type: application/json');
@@ -17,6 +21,7 @@ if (!$idResa) {
 
 $reservations = lireJson('reservations.json');
 
+// Retrouver la réservation par son index pour pouvoir la modifier
 $index = null;
 foreach ($reservations as $i => $r) {
     if ($r['idResa'] === $idResa) { $index = $i; break; }
@@ -27,6 +32,7 @@ if ($index === null) {
     exit;
 }
 
+// Sécurité : on ne peut refuser qu'une réservation encore en attente
 if ($reservations[$index]['statut'] !== 'en_attente') {
     echo json_encode(['ok' => false, 'erreur' => 'Cette réservation a déjà été traitée.']);
     exit;

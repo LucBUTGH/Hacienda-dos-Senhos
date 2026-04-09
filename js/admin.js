@@ -277,9 +277,12 @@ $(document).ready(function () {
             idPrestation: idPrestation,
             reduction: reduction
         }, function (data) {
-            $msg.css('color', data.ok ? '#1d5c3f' : '#b00020')
-                .text(data.ok ? 'OK' : data.erreur);
+            if (!data.ok) $msg.css('color', '#b00020').text(data.erreur);
             if (data.ok) {
+                const prixBase = parseFloat($ligne.find('.label-prestation').data('prix-base'));
+                const pct = parseInt(reduction, 10);
+                const prixReduit = pct > 0 ? Math.round(prixBase * (1 - pct / 100) * 100) / 100 : prixBase;
+                $ligne.find('.prix-affiche').text(prixReduit);
                 setTimeout(function () { $msg.text(''); }, 1500);
             }
         }, 'json').fail(function () {

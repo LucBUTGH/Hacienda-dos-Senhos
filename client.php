@@ -53,11 +53,14 @@ $totalChambre = $chambre ? $chambre['prix_nuit'] * $nbNuits : 0;
 $lignesPrestations = [];
 $totalPrestations  = 0;
 if ($resa) {
+    $reductionsFact = (array) ($resa['reductions'] ?? []);
     foreach (($resa['prestations'] ?? []) as $idP) {
         if (isset($prestationsMap[$idP])) {
             $p       = $prestationsMap[$idP];
-            $montant = $p['prix'] * $nbNuits;
-            $lignesPrestations[] = ['nom' => $p['nom'], 'prix' => $p['prix'], 'montant' => $montant];
+            $reduc   = intval($reductionsFact[$idP] ?? 0);
+            $prixNet = round($p['prix'] * (1 - $reduc / 100), 2);
+            $montant = $prixNet * $nbNuits;
+            $lignesPrestations[] = ['nom' => $p['nom'], 'prix' => $prixNet, 'montant' => $montant, 'reduc' => $reduc];
             $totalPrestations   += $montant;
         }
     }
@@ -205,7 +208,12 @@ $resteAPayer      = $totalHT - $arrhes;
                 <?php endif; ?>
                 <?php foreach ($lignesPrestations as $ligne): ?>
                 <tr>
-                    <td><?= htmlspecialchars($ligne['nom']) ?></td>
+                    <td>
+                        <?= htmlspecialchars($ligne['nom']) ?>
+                        <?php if ($ligne['reduc'] > 0): ?>
+                            <span class="facture-reduction">(-<?= $ligne['reduc'] ?>%)</span>
+                        <?php endif; ?>
+                    </td>
                     <td class="facture-col-num"><?= $nbNuits ?> nuit<?= $nbNuits > 1 ? 's' : '' ?></td>
                     <td class="facture-col-num"><?= $ligne['prix'] ?> €</td>
                     <td class="facture-col-num"><?= $ligne['montant'] ?> €</td>

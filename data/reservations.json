@@ -11,6 +11,9 @@
         ],
         "activites_souhaitees": "",
         "statut": "validee",
-        "idChambre": 2
+        "idChambre": 2,
+        "reductions": {
+            "2": 20
+        }
     }
 ]

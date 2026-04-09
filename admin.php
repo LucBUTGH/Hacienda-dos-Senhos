@@ -144,17 +144,7 @@ $chambresLibresAujourdHui = chambresDisponibles($chambres, $reservations, $aujou
             <?php endif; ?>
 
             <?php if ($r['statut'] === 'validee'): ?>
-            <!-- Arrhes -->
             <div class="admin-facturation">
-                <div class="admin-arrhes">
-                    <label>Arrhes reçues (€)</label>
-                    <div class="champ-inline" style="gap:.5rem">
-                        <input type="number" class="input-arrhes" min="0" step="0.01"
-                            value="<?= $r['arrhes'] ?? 0 ?>" style="width:120px">
-                        <button class="btn-arrhes btn-action" data-id="<?= $r['idResa'] ?>">Enregistrer</button>
-                        <span class="msg-arrhes"></span>
-                    </div>
-                </div>
 
                 <!-- Réductions sur prestations -->
                 <?php if (!empty($r['prestations'])): ?>
@@ -168,7 +158,7 @@ $chambresLibresAujourdHui = chambresDisponibles($chambres, $reservations, $aujou
                         $reducActuelle = intval($reductions[$idP] ?? 0);
                     ?>
                     <div class="reduction-ligne" data-id-resa="<?= $r['idResa'] ?>" data-id-prestation="<?= $idP ?>">
-                        <span><?= htmlspecialchars($presta['nom']) ?> (<?= $presta['prix'] ?>€)</span>
+                        <span class="label-prestation" data-prix-base="<?= $presta['prix'] ?>"><?= htmlspecialchars($presta['nom']) ?> (<span class="prix-affiche"><?= $reducActuelle > 0 ? round($presta['prix'] * (1 - $reducActuelle / 100), 2) : $presta['prix'] ?></span>€)</span>
                         <select class="select-reduction">
                             <option value="0" <?= $reducActuelle === 0 ? 'selected' : '' ?>>Aucune</option>
                             <option value="10" <?= $reducActuelle === 10 ? 'selected' : '' ?>>-10%</option>

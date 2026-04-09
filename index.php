@@ -43,15 +43,83 @@ $prestations = lireJson('prestations.json');
     </div>
 </section>
 
+<section id="presentation">
+    <div class="pres-edito">
+        <div class="pres-photo-col">
+            <img src="assets/image1.png" alt="La hacienda dos Sonhos">
+        </div>
+        <div class="pres-text-col">
+            <span class="pres-overline">Mato Grosso &mdash; Brésil</span>
+            <blockquote class="pres-citation">
+                &laquo;&nbsp;Ici, le temps se mesure au rythme des saisons, des marées et du chant des aras.&nbsp;&raquo;
+            </blockquote>
+            <p class="pres-corps">Nichée entre le Cerrado et l'Amazonie, l'Hacienda dos Sonhos s'étend sur 340&nbsp;hectares de nature brésilienne préservée. Forêts denses, lacs cristallins, savanes infinies&nbsp;: un écrin où la faune endémique côtoie une architecture coloniale restaurée avec soin.</p>
+            <p class="pres-corps">Le domaine se vit au gré des envies — balade en barque à l'aube, farniente sous les araucarias, repas préparés avec les fruits du verger. Chaque séjour est une immersion, jamais un spectacle.</p>
+        </div>
+    </div>
+    <div class="pres-chiffres">
+        <div class="pres-chiffre">
+            <span class="chiffre-val">340</span>
+            <span class="chiffre-label">hectares</span>
+        </div>
+        <div class="pres-chiffre">
+            <span class="chiffre-val">4</span>
+            <span class="chiffre-label">demeures</span>
+        </div>
+        <div class="pres-chiffre">
+            <span class="chiffre-val">XII</span>
+            <span class="chiffre-label">activités</span>
+        </div>
+        <div class="pres-chiffre">
+            <span class="chiffre-val">1</span>
+            <span class="chiffre-label">domaine unique</span>
+        </div>
+    </div>
+</section>
+
 <section id="hebergements">
     <div class="c">
-        <h2>Nos hébergements</h2>
-        <div id="grille-chambres">
-            <?php foreach ($chambres as $c): ?>
-                <div class="chambre">
+        <div class="sejours-entete">
+            <span class="sejours-surtitre">Où séjourner</span>
+            <h2 class="sejours-titre">Quatre demeures,<br><em>quatre façons d'habiter la nature.</em></h2>
+        </div>
+
+        <?php
+        $placeholders = [
+            ['img' => 'assets/2pers.png',  'num' => 'I'],
+            ['img' => 'assets/4pers.png',  'num' => 'II'],
+            ['img' => 'assets/8pers.png',  'num' => 'III'],
+            ['img' => 'assets/2pers2.png', 'num' => 'IV'],
+        ];
+
+        $vedette = $chambres[0];
+        $p0 = $placeholders[0];
+        ?>
+        <div class="chambre chambre--vedette">
+            <img class="chambre-img" src="<?= $p0['img'] ?>" alt="<?= htmlspecialchars($vedette['nom']) ?>">
+            <div class="chambre-body">
+                <span class="chambre-num"><?= $p0['num'] ?></span>
+                <h3><?= htmlspecialchars($vedette['nom']) ?></h3>
+                <p class="chambre-desc"><?= htmlspecialchars($vedette['description']) ?></p>
+                <p class="chambre-prix"><?= $vedette['prix_nuit'] ?>&thinsp;€ <span>/ nuit</span></p>
+                <p class="chambre-capa"><?= $vedette['capacite'] ?> personnes maximum</p>
+                <a href="#reservation" class="chambre-lien">Demander ce séjour</a>
+            </div>
+        </div>
+
+        <div class="chambres-secondaires">
+            <?php foreach (array_slice($chambres, 1) as $i => $c):
+                $p = $placeholders[$i + 1];
+            ?>
+            <div class="chambre chambre--secondaire">
+                <img class="chambre-img" src="<?= $p['img'] ?>" alt="<?= htmlspecialchars($c['nom']) ?>">
+                <div class="chambre-body">
+                    <span class="chambre-num"><?= $p['num'] ?></span>
                     <h3><?= htmlspecialchars($c['nom']) ?></h3>
-                    <p><?= $c['prix_nuit'] ?>€ / nuit — <?= $c['capacite'] ?> pers. max</p>
+                    <p class="chambre-desc"><?= htmlspecialchars($c['description']) ?></p>
+                    <p class="chambre-prix"><?= $c['prix_nuit'] ?>&thinsp;€ <span>/ nuit</span></p>
                 </div>
+            </div>
             <?php endforeach; ?>
         </div>
     </div>
